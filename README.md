@@ -17,12 +17,4 @@
         <h3>🎉 ¡Gracias por visitar mi perfil de Github!</h3>
         <p>No dudes en echar un vistazo a mis proyectos y contactarme si tienes alguna pregunta o simplemente quieres charlar sobre tecnología. ¡Nos vemos en el mundo digital!</p>
     </div>
-    <div>
-        <img src="https://img.icons8.com/color/24/000000/typescript.png"/>  
-        <img src="https://img.icons8.com/color/24/000000/react-native.png"/>  
-        <img src="https://img.icons8.com/color/24/000000/nodejs.png"/>  
-        <img src="https://img.icons8.com/color/24/000000/javascript.png"/>  
-        <img src="https://img.icons8.com/color/24/000000/mongodb.png"/>  
-        <img src="https://img.icons8.com/color/24/000000/mysql-logo.png"/>
-    </div>
 </div>
