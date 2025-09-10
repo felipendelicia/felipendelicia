@@ -1,7 +1,4 @@
 <div style="display: flex; flex-direction: column; gap: 20px;">
-    <div align="center">
-        <img src="./assets/banner.png" align="center" style="width: 100%" />
-    </div>
     <div>
         <h2>¡Hola! Soy Felipe 👋</h2>
         <p>Soy un desarrollador fullstack apasionado por el código limpio y las soluciones creativas. Me encargo de trabajar con TypeScript, React, Node.js, y Express para crear aplicaciones web que sean intuitivas y fáciles de usar.</p>
