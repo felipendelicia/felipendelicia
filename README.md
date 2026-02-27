@@ -4,7 +4,7 @@
     </div>
     <div>
         <h3>📧 Contacto</h3>
-        <p>Email: <a href="emailto:delicia4581@gmail.com">fe.delicia@outlook.com</a></p>
+        <p>Email: <a href="emailto:delicia4581@gmail.com">delicia4581@gmail.com</a></p>
         <p>Linkedin: <a href="https://www.linkedin.com/in/felipe-nahuel-delicia-b2487119a/">Felipe Nahuel Delicia</a></p>
     </div>
 </div>
