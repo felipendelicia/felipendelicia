@@ -8,15 +8,19 @@ const t = useTranslations(locale);
 const { Content } = await render(entry);
 
 const fmt = new Intl.DateTimeFormat(locale, { year: 'numeric', month: 'short' });
-const inicio = fmt.format(entry.data.inicio);
+const hasPeriodo = entry.data.inicio != null;
+const inicio = entry.data.inicio ? fmt.format(entry.data.inicio) : null;
 const fin = entry.data.fin ? fmt.format(entry.data.fin) : t('experiencia.actualidad');
-const vigente = entry.data.fin === null;
+const vigente = hasPeriodo && entry.data.fin === null;
+const subproyectos = entry.data.subproyectos;
 ---
-<article class="exp">
-  <div class="period mono">
-    <span class="range">{inicio} — {fin}</span>
-    {vigente && <span class="now" aria-hidden="true"></span>}
-  </div>
+<article class="exp" class:list={{ 'no-period': !hasPeriodo }}>
+  {hasPeriodo && (
+    <div class="period mono">
+      <span class="range">{inicio} — {fin}</span>
+      {vigente && <span class="now" aria-hidden="true"></span>}
+    </div>
+  )}
   <div class="body">
     <h3 class="role">{entry.data.rol} <span class="at">·</span> <span class="company">{entry.data.empresa}</span></h3>
     <div class="prose">
@@ -26,6 +30,24 @@ const vigente = entry.data.fin === null;
       <ul class="tags mono">
         {entry.data.tags.map((tag) => <li>{tag}</li>)}
       </ul>
+    )}
+    {subproyectos.length > 0 && (
+      <div class="subproyectos">
+        <h4 class="sub-label mono">{t('experiencia.desarrollos')}</h4>
+        <ul class="sub-list">
+          {subproyectos.map((sp) => (
+            <li class="sub">
+              <span class="sub-nombre">{sp.nombre}</span>
+              <span class="sub-desc">{sp.descripcion}</span>
+              {sp.stack.length > 0 && (
+                <ul class="sub-stack mono">
+                  {sp.stack.map((s) => <li>{s}</li>)}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     )}
   </div>
 </article>
@@ -38,6 +60,7 @@ const vigente = entry.data.fin === null;
     padding-block: var(--space-4);
     border-top: 1px solid var(--border);
   }
+  .exp.no-period { grid-template-columns: 1fr; }
   .period {
     display: flex;
     align-items: baseline;
@@ -72,6 +95,36 @@ const vigente = entry.data.fin === null;
     border-radius: 999px;
     padding: 0.2rem 0.6rem;
   }
+
+  .subproyectos { margin-top: var(--space-4); }
+  .sub-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: var(--space-3);
+  }
+  .sub-list { display: grid; gap: var(--space-3); padding: 0; list-style: none; }
+  .sub {
+    display: grid;
+    gap: 0.3rem;
+    padding-left: var(--space-3);
+    border-left: 1px solid var(--border);
+  }
+  .sub-nombre { font-size: var(--step-0); font-weight: 500; letter-spacing: -0.01em; }
+  .sub-desc { color: var(--text-dim); font-size: var(--step--1); }
+  .sub-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: 0.15rem;
+    padding: 0;
+    list-style: none;
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    color: var(--text-faint);
+  }
+  .sub-stack li { white-space: nowrap; }
 
   @media (max-width: 38rem) {
     .exp { grid-template-columns: 1fr; gap: var(--space-2); }

@@ -6,10 +6,19 @@ const experiencia = defineCollection({
   schema: z.object({
     empresa: z.string(),
     rol: z.string(),
-    inicio: z.coerce.date(),
-    fin: z.coerce.date().nullable(),
+    inicio: z.coerce.date().optional(),
+    fin: z.coerce.date().nullable().optional(),
     orden: z.number(),
     tags: z.array(z.string()).default([]),
+    subproyectos: z
+      .array(
+        z.object({
+          nombre: z.string(),
+          descripcion: z.string(),
+          stack: z.array(z.string()).default([]),
+        }),
+      )
+      .default([]),
   }),
 });
 
