@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import TerminalMock from './TerminalMock.astro';
 import { render, type CollectionEntry } from 'astro:content';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import Base from '../layouts/Base.astro';
@@ -15,7 +16,7 @@ const path = `proyectos/${slug}`;
 const home = getRelativeLocaleUrl(locale, '');
 const { Content } = await render(entry);
 const fecha = new Intl.DateTimeFormat(locale, { year: 'numeric', month: 'long' }).format(entry.data.fecha);
-const { cover, titulo, resumen, stack, repo, demo, galeria } = entry.data;
+const { cover, terminal, titulo, resumen, stack, repo, demo, galeria } = entry.data;
 ---
 <Base locale={locale} title={`${titulo} — Felipe`} description={resumen} path={path}>
   <Nav slot="header" locale={locale} path={path} />
@@ -42,11 +43,13 @@ const { cover, titulo, resumen, stack, repo, demo, galeria } = entry.data;
       )}
     </header>
 
-    {cover && (
+    {terminal ? (
+      <figure class="cover term-cover"><TerminalMock /></figure>
+    ) : cover ? (
       <figure class="cover">
         <Image src={cover} alt={titulo} widths={[640, 960, 1280]} sizes="(max-width: 48rem) 92vw, 44rem" />
       </figure>
-    )}
+    ) : null}
 
     <div class="prose body">
       <Content />
@@ -95,6 +98,7 @@ const { cover, titulo, resumen, stack, repo, demo, galeria } = entry.data;
     overflow: hidden;
   }
   .cover :global(img) { width: 100%; height: auto; display: block; }
+  .term-cover { aspect-ratio: 16 / 9; }
 
   .body { margin-top: var(--space-2); font-size: var(--step-0); max-width: none; }
 
