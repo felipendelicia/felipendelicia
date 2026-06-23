@@ -23,9 +23,12 @@ describe('useTranslations', () => {
     const t = useTranslations('en');
     expect(t('nav.proyectos')).toBe('Projects');
   });
-  it('cae al locale por defecto si falta la key en el locale', () => {
-    const t = useTranslations('en');
-    // 'site.title' existe en ambos; este test verifica que no rompe.
-    expect(typeof t('site.title')).toBe('string');
+  it('selecciona el string correcto según el locale', () => {
+    const es = useTranslations('es');
+    const en = useTranslations('en');
+    expect(es('site.title')).toBe('Felipe — Desarrollo e Infraestructura TI');
+    expect(en('site.title')).toBe('Felipe — Software & IT Infrastructure');
+    expect(es('proyectos.volver')).toBe('← Volver');
+    expect(en('proyectos.volver')).toBe('← Back');
   });
 });
