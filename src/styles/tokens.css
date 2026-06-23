@@ -1,0 +1,30 @@
+:root {
+  /* Tema dark (default) */
+  --bg: #0d0d0f;
+  --surface: #16161a;
+  --text: #ededf0;
+  --muted: #a0a0a8;
+  --accent: #6ea8fe;
+  --border: #26262c;
+  --color-scheme: dark;
+
+  /* Escala / tipografía */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --maxw: 48rem;
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 2rem;
+  --space-4: 4rem;
+  --radius: 0.5rem;
+}
+
+:root[data-theme='light'] {
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --text: #18181b;
+  --muted: #52525b;
+  --accent: #2563eb;
+  --border: #e4e4e7;
+  --color-scheme: light;
+}
