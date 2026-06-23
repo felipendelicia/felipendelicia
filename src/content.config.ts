@@ -15,16 +15,19 @@ const experiencia = defineCollection({
 
 const proyectos = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/proyectos' }),
-  schema: z.object({
-    titulo: z.string(),
-    resumen: z.string(),
-    stack: z.array(z.string()).default([]),
-    repo: z.string().url().optional(),
-    demo: z.string().url().optional(),
-    destacado: z.boolean().default(false),
-    orden: z.number(),
-    fecha: z.coerce.date(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      titulo: z.string(),
+      resumen: z.string(),
+      stack: z.array(z.string()).default([]),
+      repo: z.string().url().optional(),
+      demo: z.string().url().optional(),
+      destacado: z.boolean().default(false),
+      orden: z.number(),
+      fecha: z.coerce.date(),
+      cover: image().optional(),
+      galeria: z.array(z.object({ src: image(), alt: z.string() })).default([]),
+    }),
 });
 
 export const collections = { experiencia, proyectos };

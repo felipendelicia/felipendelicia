@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import { render, type CollectionEntry } from 'astro:content';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import Base from '../layouts/Base.astro';
@@ -14,8 +15,9 @@ const path = `proyectos/${slug}`;
 const home = getRelativeLocaleUrl(locale, '');
 const { Content } = await render(entry);
 const fecha = new Intl.DateTimeFormat(locale, { year: 'numeric', month: 'long' }).format(entry.data.fecha);
+const { cover, titulo, resumen, stack, repo, demo, galeria } = entry.data;
 ---
-<Base locale={locale} title={`${entry.data.titulo} — Felipe`} description={entry.data.resumen} path={path}>
+<Base locale={locale} title={`${titulo} — Felipe`} description={resumen} path={path}>
   <Nav slot="header" locale={locale} path={path} />
 
   <article class="detail">
@@ -23,26 +25,43 @@ const fecha = new Intl.DateTimeFormat(locale, { year: 'numeric', month: 'long' }
 
     <header class="head">
       <p class="eyebrow mono">{fecha}</p>
-      <h1 class="title">{entry.data.titulo}</h1>
-      <p class="resumen">{entry.data.resumen}</p>
-      {entry.data.stack.length > 0 && (
-        <ul class="stack mono">{entry.data.stack.map((s) => <li>{s}</li>)}</ul>
+      <h1 class="title">{titulo}</h1>
+      <p class="resumen">{resumen}</p>
+      {stack.length > 0 && (
+        <ul class="stack mono">{stack.map((s) => <li>{s}</li>)}</ul>
       )}
-      {(entry.data.repo || entry.data.demo) && (
+      {(repo || demo) && (
         <div class="actions mono">
-          {entry.data.repo && (
-            <a class="btn" href={entry.data.repo} target="_blank" rel="noopener noreferrer">{t('proyectos.verRepo')}&nbsp;↗</a>
+          {demo && (
+            <a class="btn primary" href={demo} target="_blank" rel="noopener noreferrer">{t('proyectos.verDemo')}&nbsp;↗</a>
           )}
-          {entry.data.demo && (
-            <a class="btn" href={entry.data.demo} target="_blank" rel="noopener noreferrer">{t('proyectos.verDemo')}&nbsp;↗</a>
+          {repo && (
+            <a class="btn" href={repo} target="_blank" rel="noopener noreferrer">{t('proyectos.verRepo')}&nbsp;↗</a>
           )}
         </div>
       )}
     </header>
 
+    {cover && (
+      <figure class="cover">
+        <Image src={cover} alt={titulo} widths={[640, 960, 1280]} sizes="(max-width: 48rem) 92vw, 44rem" />
+      </figure>
+    )}
+
     <div class="prose body">
       <Content />
     </div>
+
+    {galeria.length > 0 && (
+      <div class="galeria">
+        {galeria.map((img) => (
+          <figure>
+            <Image src={img.src} alt={img.alt} widths={[640, 960, 1280]} sizes="(max-width: 48rem) 92vw, 44rem" loading="lazy" />
+            <figcaption class="mono">{img.alt}</figcaption>
+          </figure>
+        ))}
+      </div>
+    )}
   </article>
 
   <Footer slot="footer" locale={locale} />
@@ -51,10 +70,10 @@ const fecha = new Intl.DateTimeFormat(locale, { year: 'numeric', month: 'long' }
 <style>
   .detail { max-width: 44rem; margin-inline: auto; padding-block: var(--space-5) 0; }
   .back { display: inline-block; color: var(--text-dim); font-size: var(--step--1); margin-bottom: var(--space-4); }
-  .head { border-bottom: 1px solid var(--border); padding-bottom: var(--space-4); }
+  .head { padding-bottom: var(--space-4); }
   .head .eyebrow { color: var(--accent); letter-spacing: 0.12em; }
   .title { font-size: var(--step-3); margin-top: var(--space-2); font-variation-settings: 'opsz' 144, 'SOFT' 24, 'WONK' 0; }
-  .resumen { color: var(--text-dim); font-size: var(--step-1); margin-top: var(--space-3); max-width: 36ch; }
+  .resumen { color: var(--text-dim); font-size: var(--step-1); margin-top: var(--space-3); max-width: 38ch; }
   .stack { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: var(--space-3); padding: 0; list-style: none; font-size: 0.75rem; color: var(--text-faint); }
   .actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-4); }
   .btn {
@@ -66,5 +85,26 @@ const fecha = new Intl.DateTimeFormat(locale, { year: 'numeric', month: 'long' }
     transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
   }
   .btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
-  .body { margin-top: var(--space-4); font-size: var(--step-0); max-width: none; }
+  .btn.primary { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .btn.primary:hover { background: var(--accent-hi); border-color: var(--accent-hi); color: var(--bg); }
+
+  .cover {
+    margin-block: var(--space-2) var(--space-4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .cover :global(img) { width: 100%; height: auto; display: block; }
+
+  .body { margin-top: var(--space-2); font-size: var(--step-0); max-width: none; }
+
+  .galeria { display: grid; gap: var(--space-4); margin-top: var(--space-5); }
+  .galeria figure {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--bg-elev);
+  }
+  .galeria :global(img) { width: 100%; height: auto; display: block; border-bottom: 1px solid var(--border); }
+  .galeria figcaption { padding: var(--space-2); font-size: var(--step--1); color: var(--text-dim); }
 </style>
