@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import TerminalMock from './TerminalMock.astro';
+import PipelineDiagram from './PipelineDiagram.astro';
 import { render, type CollectionEntry } from 'astro:content';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import Base from '../layouts/Base.astro';
@@ -16,7 +17,7 @@ const path = `proyectos/${slug}`;
 const home = getRelativeLocaleUrl(locale, '');
 const { Content } = await render(entry);
 const fecha = new Intl.DateTimeFormat(locale, { year: 'numeric', month: 'long' }).format(entry.data.fecha);
-const { cover, terminal, titulo, resumen, stack, repo, demo, galeria } = entry.data;
+const { cover, terminal, diagram, titulo, resumen, stack, repo, demo, galeria } = entry.data;
 ---
 <Base locale={locale} title={`${titulo} — Felipe`} description={resumen} path={path}>
   <Nav slot="header" locale={locale} path={path} />
@@ -45,6 +46,8 @@ const { cover, terminal, titulo, resumen, stack, repo, demo, galeria } = entry.d
 
     {terminal ? (
       <figure class="cover term-cover"><TerminalMock /></figure>
+    ) : diagram ? (
+      <figure class="cover term-cover"><PipelineDiagram /></figure>
     ) : cover ? (
       <figure class="cover">
         <Image src={cover} alt={titulo} widths={[640, 960, 1280]} sizes="(max-width: 48rem) 92vw, 44rem" />

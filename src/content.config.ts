@@ -27,6 +27,7 @@ const proyectos = defineCollection({
       fecha: z.coerce.date(),
       cover: image().optional(),
       terminal: z.boolean().default(false),
+      diagram: z.boolean().default(false),
       galeria: z.array(z.object({ src: image(), alt: z.string() })).default([]),
     }),
 });

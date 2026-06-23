@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import TerminalMock from './TerminalMock.astro';
+import PipelineDiagram from './PipelineDiagram.astro';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { type CollectionEntry } from 'astro:content';
 import { type Locale } from '../i18n/utils';
@@ -14,11 +15,13 @@ interface Props {
 const { entry, locale, slug, index = 0 } = Astro.props;
 const href = getRelativeLocaleUrl(locale, `proyectos/${slug}`);
 const num = String(index + 1).padStart(2, '0');
-const { cover, terminal, titulo, resumen, stack } = entry.data;
+const { cover, terminal, diagram, titulo, resumen, stack } = entry.data;
 ---
 <a class="card" href={href}>
   {terminal ? (
     <div class="thumb thumb-term"><TerminalMock compact /></div>
+  ) : diagram ? (
+    <div class="thumb thumb-diagram"><PipelineDiagram compact /></div>
   ) : cover ? (
     <div class="thumb">
       <Image src={cover} alt={titulo} widths={[360, 720]} sizes="(max-width: 38rem) 92vw, 360px" loading="lazy" />

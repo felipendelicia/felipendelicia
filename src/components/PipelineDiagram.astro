@@ -1,0 +1,86 @@
+---
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+
+const steps = [
+  { k: 'Obsidian', s: 'bóveda .md' },
+  { k: 'sync-notes.sh', s: 'publish: true' },
+  { k: 'Vite + React', s: 'glob · wikilinks' },
+  { k: 'Netlify', s: 'deploy estático' },
+];
+const transforms: [string, string][] = [
+  ['[[Nota]]', '<Link>'],
+  ['![[img.png]]', '<img>'],
+  ['$LaTeX$ · `code`', 'KaTeX · hljs'],
+];
+---
+<div
+  class:list={['diagram', { compact }]}
+  role="img"
+  aria-label="Pipeline de publicación: bóveda de Obsidian → sync-notes.sh → Vite y React → deploy en Netlify"
+>
+  <p class="cap eyebrow" aria-hidden="true">obsidian&nbsp;→&nbsp;web</p>
+  <div class="flow" aria-hidden="true">
+    {steps.map((st, i) => (
+      <Fragment>
+        <div class="node">
+          <span class="k mono">{st.k}</span>
+          {!compact && <span class="s">{st.s}</span>}
+        </div>
+        {i < steps.length - 1 && <span class="arr mono">→</span>}
+      </Fragment>
+    ))}
+  </div>
+  {!compact && (
+    <ul class="transforms mono" aria-hidden="true">
+      {transforms.map(([a, b]) => (
+        <li><span class="from">{a}</span><span class="arr2">→</span><span class="to">{b}</span></li>
+      ))}
+    </ul>
+  )}
+</div>
+
+<style>
+  .diagram {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.1rem;
+    padding: 1.4rem;
+    text-align: center;
+    background:
+      radial-gradient(120% 80% at 50% 0%, var(--accent-soft), transparent 62%),
+      var(--bg-elev);
+    color: var(--text);
+  }
+  .cap { color: var(--text-dim); }
+  .flow { display: flex; align-items: center; justify-content: center; gap: 0.55rem; flex-wrap: wrap; }
+  .node {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    padding: 0.5rem 0.75rem;
+    min-width: 0;
+  }
+  .node .k { font-size: 0.8rem; color: var(--accent); font-weight: 500; }
+  .node .s { font-size: 0.68rem; color: var(--text-dim); }
+  .arr { color: var(--text-faint); }
+
+  .transforms { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.74rem; }
+  .transforms li { display: flex; gap: 0.5rem; align-items: center; justify-content: center; }
+  .transforms .from { color: var(--text-dim); }
+  .transforms .arr2 { color: var(--accent); }
+  .transforms .to { color: var(--text); }
+
+  .diagram.compact { gap: 0.5rem; padding: 0.7rem; }
+  .diagram.compact .cap { font-size: 0.55rem; }
+  .diagram.compact .flow { gap: 0.3rem; }
+  .diagram.compact .node { padding: 0.25rem 0.45rem; }
+  .diagram.compact .node .k { font-size: 0.58rem; }
+  .diagram.compact .arr { font-size: 0.7rem; }
+</style>
