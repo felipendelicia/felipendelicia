@@ -21,3 +21,17 @@ export function useTranslations(locale: Locale) {
     return ui[locale][key] ?? ui[DEFAULT_LOCALE][key];
   };
 }
+
+/** Lanza si los slugs no coinciden entre locales (es/en). Pure: opera sobre ids del glob loader. */
+export function assertPaired(label: string, ids: string[]): void {
+  const bySlug = { es: new Set<string>(), en: new Set<string>() };
+  for (const id of ids) bySlug[getLocaleFromId(id)].add(getSlugFromId(id));
+  const onlyEs = [...bySlug.es].filter((s) => !bySlug.en.has(s));
+  const onlyEn = [...bySlug.en].filter((s) => !bySlug.es.has(s));
+  if (onlyEs.length || onlyEn.length) {
+    throw new Error(
+      `Contenido "${label}" sin parear es/en. Solo ES: [${onlyEs.join(', ')}]. Solo EN: [${onlyEn.join(', ')}]. ` +
+        `Cada ítem debe existir con el mismo nombre de archivo en es/ y en/.`,
+    );
+  }
+}

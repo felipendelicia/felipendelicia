@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getLocaleFromId, getSlugFromId, useTranslations } from './utils';
+import { getLocaleFromId, getSlugFromId, useTranslations, assertPaired } from './utils';
 
 describe('getLocaleFromId', () => {
   it('extrae el locale del prefijo del id', () => {
@@ -30,5 +30,16 @@ describe('useTranslations', () => {
     expect(en('site.title')).toBe('Felipe — Software & IT Infrastructure');
     expect(es('proyectos.volver')).toBe('← Volver');
     expect(en('proyectos.volver')).toBe('← Back');
+  });
+});
+
+describe('assertPaired', () => {
+  it('no lanza cuando los slugs coinciden entre locales', () => {
+    const ids = ['es/a', 'en/a', 'es/b', 'en/b'];
+    expect(() => assertPaired('x', ids)).not.toThrow();
+  });
+  it('lanza cuando un slug existe solo en un locale', () => {
+    const ids = ['es/a', 'en/a', 'es/b'];
+    expect(() => assertPaired('x', ids)).toThrow();
   });
 });

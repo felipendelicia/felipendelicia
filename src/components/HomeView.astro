@@ -6,17 +6,21 @@ import Hero from './Hero.astro';
 import ExperienciaItem from './ExperienciaItem.astro';
 import ProyectoCard from './ProyectoCard.astro';
 import Footer from './Footer.astro';
-import { getLocaleFromId, getSlugFromId, useTranslations, type Locale } from '../i18n/utils';
+import { getLocaleFromId, getSlugFromId, useTranslations, assertPaired, type Locale } from '../i18n/utils';
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 
-const experiencia = (await getCollection('experiencia'))
+const expAll = await getCollection('experiencia');
+assertPaired('experiencia', expAll.map((e) => e.id));
+const experiencia = expAll
   .filter((e) => getLocaleFromId(e.id) === locale)
   .sort((a, b) => b.data.orden - a.data.orden);
 
-const proyectos = (await getCollection('proyectos'))
+const projAll = await getCollection('proyectos');
+assertPaired('proyectos', projAll.map((p) => p.id));
+const proyectos = projAll
   .filter((p) => getLocaleFromId(p.id) === locale && p.data.destacado)
   .sort((a, b) => a.data.orden - b.data.orden);
 ---
@@ -26,7 +30,7 @@ const proyectos = (await getCollection('proyectos'))
   <Hero locale={locale} />
 
   <section id="experiencia" class="section">
-    <p class="eyebrow"><span class="num">01</span>&nbsp;&nbsp;/&nbsp;&nbsp;{t('nav.experiencia')}</p>
+    <h2 class="eyebrow"><span class="num">01</span>&nbsp;&nbsp;/&nbsp;&nbsp;{t('nav.experiencia')}</h2>
     {experiencia.length > 0 ? (
       <div class="list">
         {experiencia.map((e) => <ExperienciaItem entry={e} locale={locale} />)}
@@ -37,7 +41,7 @@ const proyectos = (await getCollection('proyectos'))
   </section>
 
   <section id="proyectos" class="section">
-    <p class="eyebrow"><span class="num">02</span>&nbsp;&nbsp;/&nbsp;&nbsp;{t('nav.proyectos')}</p>
+    <h2 class="eyebrow"><span class="num">02</span>&nbsp;&nbsp;/&nbsp;&nbsp;{t('nav.proyectos')}</h2>
     {proyectos.length > 0 ? (
       <div class="grid">
         {proyectos.map((p, i) => (
