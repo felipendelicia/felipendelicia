@@ -1,0 +1,47 @@
+---
+import { useTranslations, type Locale } from '../i18n/utils';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+<button id="theme-toggle" type="button" class="toggle" aria-label={t('a11y.tema')}>
+  <svg class="icon moon" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M13.5 9.2A5.5 5.5 0 0 1 6.8 2.5 5.5 5.5 0 1 0 13.5 9.2Z" />
+  </svg>
+  <svg class="icon sun" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="8" cy="8" r="3.1" />
+    <path d="M8 1v1.6M8 13.4V15M1 8h1.6M13.4 8H15M3 3l1.1 1.1M11.9 11.9 13 13M13 3l-1.1 1.1M4.1 11.9 3 13" />
+  </svg>
+</button>
+
+<script>
+  const btn = document.getElementById('theme-toggle');
+  btn?.addEventListener('click', () => {
+    const root = document.documentElement;
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    localStorage.setItem('theme', next);
+  });
+</script>
+
+<style>
+  .toggle {
+    display: grid;
+    place-items: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    color: var(--text-dim);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+  .toggle:hover { color: var(--accent); border-color: var(--border-strong); transform: rotate(-12deg); }
+  .icon { grid-area: 1 / 1; transition: opacity 0.2s ease, transform 0.3s ease; }
+  /* dark → mostrar luna; light → mostrar sol */
+  .sun { opacity: 0; transform: scale(0.5) rotate(-90deg); }
+  .moon { opacity: 1; }
+  :global(:root[data-theme='light']) .sun { opacity: 1; transform: none; }
+  :global(:root[data-theme='light']) .moon { opacity: 0; transform: scale(0.5) rotate(90deg); }
+</style>

@@ -1,0 +1,40 @@
+---
+import { useTranslations, type Locale } from '../i18n/utils';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const email = 'delicia4581@gmail.com';
+const github = 'https://github.com/felipendelicia';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="inner">
+    <p class="who mono">© {year} Felipe</p>
+    <nav class="links mono" aria-label={t('nav.contacto')}>
+      <a class="link" href={`mailto:${email}`}>Email</a>
+      <a class="link" href={github} target="_blank" rel="noopener noreferrer">GitHub&nbsp;↗</a>
+    </nav>
+    <p class="made mono">{t('footer.hecho')}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    margin-top: var(--space-6);
+  }
+  .inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    max-width: var(--maxw);
+    margin-inline: auto;
+    padding: var(--space-4) var(--pad-x);
+    font-size: var(--step--1);
+    color: var(--text-dim);
+  }
+  .links { display: flex; gap: var(--space-3); }
+  .made { color: var(--text-faint); }
+</style>

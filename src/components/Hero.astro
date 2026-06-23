@@ -1,0 +1,58 @@
+---
+import { useTranslations, type Locale } from '../i18n/utils';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const email = 'delicia4581@gmail.com';
+const github = 'https://github.com/felipendelicia';
+---
+<section class="hero">
+  <div class="glow" aria-hidden="true"></div>
+  <p class="eyebrow reveal" style="--d: 0s">{t('hero.eyebrow')}</p>
+  <h1 class="title reveal" style="--d: 0.08s">{t('hero.titulo')}</h1>
+  <p class="lede reveal" style="--d: 0.16s">{t('hero.subtitulo')}</p>
+  <p class="contact mono reveal" style="--d: 0.24s">
+    <a class="link" href={`mailto:${email}`}>{email}</a>
+    <span class="sep" aria-hidden="true">·</span>
+    <a class="link" href={github} target="_blank" rel="noopener noreferrer">GitHub&nbsp;↗</a>
+  </p>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding-block: clamp(4rem, 12vh, 8rem) var(--space-5);
+  }
+  .glow {
+    position: absolute;
+    top: -18%;
+    left: -10%;
+    width: 60%;
+    height: 120%;
+    background: radial-gradient(50% 50% at 50% 50%, var(--accent-soft), transparent 70%);
+    filter: blur(20px);
+    pointer-events: none;
+    z-index: -1;
+  }
+  .title {
+    font-size: var(--step-4);
+    margin-top: var(--space-3);
+    font-variation-settings: 'opsz' 144, 'SOFT' 30, 'WONK' 0;
+  }
+  .lede {
+    font-size: var(--step-1);
+    color: var(--text-dim);
+    max-width: 32ch;
+    margin-top: var(--space-3);
+    font-weight: 400;
+  }
+  .contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    font-size: var(--step--1);
+    margin-top: var(--space-4);
+  }
+  .contact .sep { color: var(--text-faint); }
+</style>

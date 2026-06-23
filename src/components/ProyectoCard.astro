@@ -1,0 +1,70 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { type CollectionEntry } from 'astro:content';
+import { type Locale } from '../i18n/utils';
+
+interface Props {
+  entry: CollectionEntry<'proyectos'>;
+  locale: Locale;
+  slug: string;
+  index?: number;
+}
+const { entry, locale, slug, index = 0 } = Astro.props;
+const href = getRelativeLocaleUrl(locale, `proyectos/${slug}`);
+const num = String(index + 1).padStart(2, '0');
+---
+<a class="card" href={href}>
+  <span class="num mono" aria-hidden="true">{num}</span>
+  <h3 class="title">{entry.data.titulo}</h3>
+  <p class="resumen">{entry.data.resumen}</p>
+  {entry.data.stack.length > 0 && (
+    <ul class="stack mono">
+      {entry.data.stack.map((s) => <li>{s}</li>)}
+    </ul>
+  )}
+  <span class="arrow mono" aria-hidden="true">↗</span>
+</a>
+
+<style>
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+    overflow: hidden;
+    transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .card:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-3px);
+    box-shadow: 0 18px 40px -28px rgba(0, 0, 0, 0.7);
+  }
+  .card:hover::before { transform: scaleX(1); }
+  .num { font-size: var(--step--1); color: var(--accent); letter-spacing: 0.1em; }
+  .title { font-size: var(--step-1); font-weight: 480; letter-spacing: -0.01em; }
+  .resumen { color: var(--text-dim); font-size: var(--step--1); flex: 1; }
+  .stack { display: flex; flex-wrap: wrap; gap: 0.7rem; padding: 0; list-style: none; font-size: 0.72rem; color: var(--text-faint); letter-spacing: 0.02em; }
+  .stack li { white-space: nowrap; }
+  .arrow {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+    color: var(--text-faint);
+    transition: color 0.25s ease, transform 0.25s ease;
+  }
+  .card:hover .arrow { color: var(--accent); transform: translate(2px, -2px); }
+</style>

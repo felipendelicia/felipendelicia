@@ -1,0 +1,70 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import Base from '../layouts/Base.astro';
+import Nav from './Nav.astro';
+import Footer from './Footer.astro';
+import { getSlugFromId, useTranslations, type Locale } from '../i18n/utils';
+
+interface Props { entry: CollectionEntry<'proyectos'>; locale: Locale }
+const { entry, locale } = Astro.props;
+const t = useTranslations(locale);
+const slug = getSlugFromId(entry.id);
+const path = `proyectos/${slug}`;
+const home = getRelativeLocaleUrl(locale, '');
+const { Content } = await render(entry);
+const fecha = new Intl.DateTimeFormat(locale, { year: 'numeric', month: 'long' }).format(entry.data.fecha);
+---
+<Base locale={locale} title={`${entry.data.titulo} — Felipe`} description={entry.data.resumen} path={path}>
+  <Nav slot="header" locale={locale} path={path} />
+
+  <article class="detail">
+    <a class="back link mono" href={`${home}#proyectos`}>{t('proyectos.volver')}</a>
+
+    <header class="head">
+      <p class="eyebrow mono">{fecha}</p>
+      <h1 class="title">{entry.data.titulo}</h1>
+      <p class="resumen">{entry.data.resumen}</p>
+      {entry.data.stack.length > 0 && (
+        <ul class="stack mono">{entry.data.stack.map((s) => <li>{s}</li>)}</ul>
+      )}
+      {(entry.data.repo || entry.data.demo) && (
+        <div class="actions mono">
+          {entry.data.repo && (
+            <a class="btn" href={entry.data.repo} target="_blank" rel="noopener noreferrer">{t('proyectos.verRepo')}&nbsp;↗</a>
+          )}
+          {entry.data.demo && (
+            <a class="btn" href={entry.data.demo} target="_blank" rel="noopener noreferrer">{t('proyectos.verDemo')}&nbsp;↗</a>
+          )}
+        </div>
+      )}
+    </header>
+
+    <div class="prose body">
+      <Content />
+    </div>
+  </article>
+
+  <Footer slot="footer" locale={locale} />
+</Base>
+
+<style>
+  .detail { max-width: 44rem; margin-inline: auto; padding-block: var(--space-5) 0; }
+  .back { display: inline-block; color: var(--text-dim); font-size: var(--step--1); margin-bottom: var(--space-4); }
+  .head { border-bottom: 1px solid var(--border); padding-bottom: var(--space-4); }
+  .head .eyebrow { color: var(--accent); letter-spacing: 0.12em; }
+  .title { font-size: var(--step-3); margin-top: var(--space-2); font-variation-settings: 'opsz' 144, 'SOFT' 24, 'WONK' 0; }
+  .resumen { color: var(--text-dim); font-size: var(--step-1); margin-top: var(--space-3); max-width: 36ch; }
+  .stack { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: var(--space-3); padding: 0; list-style: none; font-size: 0.75rem; color: var(--text-faint); }
+  .actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-4); }
+  .btn {
+    font-size: var(--step--1);
+    color: var(--text);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    padding: 0.5rem 1rem;
+    transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+  .btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+  .body { margin-top: var(--space-4); font-size: var(--step-0); max-width: none; }
+</style>

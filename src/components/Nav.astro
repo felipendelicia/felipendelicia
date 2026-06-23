@@ -1,0 +1,61 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import LanguagePicker from './LanguagePicker.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import { useTranslations, type Locale } from '../i18n/utils';
+interface Props { locale: Locale; path?: string }
+const { locale, path = '' } = Astro.props;
+const t = useTranslations(locale);
+const home = getRelativeLocaleUrl(locale, '');
+---
+<header class="site-header">
+  <div class="bar">
+    <a class="wordmark" href={home}>Felipe<span class="dot">.</span></a>
+    <nav class="links mono" aria-label={t('nav.experiencia') + ' / ' + t('nav.proyectos')}>
+      <a class="navlink" href={`${home}#experiencia`}>{t('nav.experiencia')}</a>
+      <a class="navlink" href={`${home}#proyectos`}>{t('nav.proyectos')}</a>
+    </nav>
+    <div class="actions">
+      <LanguagePicker locale={locale} path={path} />
+      <span class="divider" aria-hidden="true"></span>
+      <ThemeToggle locale={locale} />
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    backdrop-filter: blur(12px) saturate(140%);
+    border-bottom: 1px solid var(--border);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    max-width: var(--maxw);
+    margin-inline: auto;
+    padding: 0.85rem var(--pad-x);
+  }
+  .wordmark {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 1.2rem;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  .wordmark .dot { color: var(--accent); }
+  .links { display: flex; gap: var(--space-3); margin-left: auto; font-size: var(--step--1); letter-spacing: 0.04em; }
+  .navlink { color: var(--text-dim); transition: color 0.2s ease; }
+  .navlink:hover { color: var(--text); }
+  .actions { display: flex; align-items: center; gap: var(--space-2); }
+  .divider { width: 1px; height: 1.1rem; background: var(--border-strong); }
+
+  @media (max-width: 38rem) {
+    .links { display: none; }
+    .wordmark { margin-right: auto; }
+  }
+</style>

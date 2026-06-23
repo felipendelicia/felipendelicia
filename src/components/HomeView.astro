@@ -1,0 +1,64 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Nav from './Nav.astro';
+import Hero from './Hero.astro';
+import ExperienciaItem from './ExperienciaItem.astro';
+import ProyectoCard from './ProyectoCard.astro';
+import Footer from './Footer.astro';
+import { getLocaleFromId, getSlugFromId, useTranslations, type Locale } from '../i18n/utils';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const experiencia = (await getCollection('experiencia'))
+  .filter((e) => getLocaleFromId(e.id) === locale)
+  .sort((a, b) => b.data.orden - a.data.orden);
+
+const proyectos = (await getCollection('proyectos'))
+  .filter((p) => getLocaleFromId(p.id) === locale && p.data.destacado)
+  .sort((a, b) => a.data.orden - b.data.orden);
+---
+<Base locale={locale} title={t('site.title')} description={t('site.description')} path="">
+  <Nav slot="header" locale={locale} path="" />
+
+  <Hero locale={locale} />
+
+  <section id="experiencia" class="section">
+    <p class="eyebrow"><span class="num">01</span>&nbsp;&nbsp;/&nbsp;&nbsp;{t('nav.experiencia')}</p>
+    {experiencia.length > 0 ? (
+      <div class="list">
+        {experiencia.map((e) => <ExperienciaItem entry={e} locale={locale} />)}
+      </div>
+    ) : (
+      <p class="empty mono dim">{t('experiencia.vacio')}</p>
+    )}
+  </section>
+
+  <section id="proyectos" class="section">
+    <p class="eyebrow"><span class="num">02</span>&nbsp;&nbsp;/&nbsp;&nbsp;{t('nav.proyectos')}</p>
+    {proyectos.length > 0 ? (
+      <div class="grid">
+        {proyectos.map((p, i) => (
+          <ProyectoCard entry={p} locale={locale} slug={getSlugFromId(p.id)} index={i} />
+        ))}
+      </div>
+    ) : (
+      <p class="empty mono dim">{t('proyectos.vacio')}</p>
+    )}
+  </section>
+
+  <Footer slot="footer" locale={locale} />
+</Base>
+
+<style>
+  .section { padding-block: var(--space-5); scroll-margin-top: 4.5rem; }
+  .section > .eyebrow { margin-bottom: var(--space-2); }
+  .grid {
+    display: grid;
+    gap: var(--space-2);
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  }
+  .empty { padding-block: var(--space-3); font-size: var(--step-1); }
+</style>

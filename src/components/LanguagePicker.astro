@@ -1,0 +1,30 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { LOCALES, useTranslations, type Locale } from '../i18n/utils';
+interface Props { locale: Locale; path?: string }
+const { locale, path = '' } = Astro.props;
+const t = useTranslations(locale);
+const labels: Record<Locale, string> = { es: 'ES', en: 'EN' };
+---
+<nav class="lang mono" aria-label={t('a11y.idioma')}>
+  {LOCALES.map((l) => (
+    <a
+      href={getRelativeLocaleUrl(l, path)}
+      class:list={['opt', { active: l === locale }]}
+      aria-current={l === locale ? 'true' : undefined}
+    >{labels[l]}</a>
+  ))}
+</nav>
+
+<style>
+  .lang { display: inline-flex; align-items: center; font-size: var(--step--1); letter-spacing: 0.08em; }
+  .opt { color: var(--text-faint); padding: 0.2rem 0.1rem; transition: color 0.2s ease; }
+  .opt:hover { color: var(--text); }
+  .opt.active { color: var(--accent); }
+  .opt + .opt { margin-left: 0.5rem; }
+  .opt + .opt::before {
+    content: '/';
+    color: var(--border-strong);
+    margin-right: 0.5rem;
+  }
+</style>
