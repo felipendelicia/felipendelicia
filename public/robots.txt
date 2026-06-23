@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://felipendelicia.github.io/felipendelicia/sitemap-index.xml

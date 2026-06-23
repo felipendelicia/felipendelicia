@@ -1,0 +1,15 @@
+---
+import { getCollection } from 'astro:content';
+import ProyectoView from '../../components/ProyectoView.astro';
+import { getLocaleFromId, getSlugFromId } from '../../i18n/utils';
+
+export async function getStaticPaths() {
+  const all = await getCollection('proyectos');
+  return all
+    .filter((e) => getLocaleFromId(e.id) === 'es')
+    .map((e) => ({ params: { slug: getSlugFromId(e.id) }, props: { entry: e } }));
+}
+
+const { entry } = Astro.props;
+---
+<ProyectoView entry={entry} locale="es" />

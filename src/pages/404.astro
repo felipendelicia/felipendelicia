@@ -1,0 +1,22 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+const home = getRelativeLocaleUrl('es', '');
+---
+<Base locale="es" title="404 — Felipe" description="Página no encontrada." path="">
+  <Nav slot="header" locale="es" path="" />
+  <section class="notfound">
+    <p class="eyebrow mono"><span class="num">404</span>&nbsp;&nbsp;/&nbsp;&nbsp;Not found</p>
+    <h1 class="big">Esta página no existe.</h1>
+    <a class="link mono back" href={home}>← Volver al inicio</a>
+  </section>
+  <Footer slot="footer" locale="es" />
+</Base>
+
+<style>
+  .notfound { padding-block: clamp(5rem, 18vh, 11rem) var(--space-5); }
+  .big { font-size: var(--step-3); margin-top: var(--space-3); font-variation-settings: 'opsz' 144, 'SOFT' 30, 'WONK' 0; }
+  .back { display: inline-block; margin-top: var(--space-4); color: var(--text-dim); }
+</style>
