@@ -1,0 +1,52 @@
+---
+import '../styles/global.css';
+import { getAbsoluteLocaleUrl } from 'astro:i18n';
+import { useTranslations, type Locale } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  path?: string;
+}
+
+const { locale, title, description, path = '' } = Astro.props;
+const t = useTranslations(locale);
+const esUrl = getAbsoluteLocaleUrl('es', path);
+const enUrl = getAbsoluteLocaleUrl('en', path);
+const canonical = getAbsoluteLocaleUrl(locale, path);
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="es" href={esUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="x-default" href={esUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <!-- Anti-FOUC: setea el tema antes del primer paint -->
+    <script is:inline>
+      (function () {
+        var stored = localStorage.getItem('theme');
+        var theme = stored === 'light' || stored === 'dark' ? stored : 'dark';
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">{t('a11y.skip')}</a>
+    <slot name="header" />
+    <main id="contenido">
+      <slot />
+    </main>
+  </body>
+</html>
