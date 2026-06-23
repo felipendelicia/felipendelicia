@@ -15,6 +15,7 @@ const t = useTranslations(locale);
 const esUrl = getAbsoluteLocaleUrl('es', path);
 const enUrl = getAbsoluteLocaleUrl('en', path);
 const canonical = getAbsoluteLocaleUrl(locale, path);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <!doctype html>
@@ -24,6 +25,9 @@ const canonical = getAbsoluteLocaleUrl(locale, path);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#100e0b" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f4efe4" media="(prefers-color-scheme: light)" />
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang="es" href={esUrl} />
     <link rel="alternate" hreflang="en" href={enUrl} />
@@ -31,8 +35,9 @@ const canonical = getAbsoluteLocaleUrl(locale, path);
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content={locale === 'es' ? 'es_ES' : 'en_US'} />
     <meta property="og:url" content={canonical} />
-    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
     <!-- Anti-FOUC: setea el tema antes del primer paint -->
     <script is:inline>
       (function () {
@@ -43,10 +48,12 @@ const canonical = getAbsoluteLocaleUrl(locale, path);
     </script>
   </head>
   <body>
+    <div class="grain" aria-hidden="true"></div>
     <a class="skip-link" href="#contenido">{t('a11y.skip')}</a>
     <slot name="header" />
     <main id="contenido">
       <slot />
     </main>
+    <slot name="footer" />
   </body>
 </html>

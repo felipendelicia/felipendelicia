@@ -1,35 +1,135 @@
+/* Fuentes self-hosted (Fontsource, sin CDN) */
+@import '@fontsource-variable/fraunces/full.css';
+@import '@fontsource-variable/hanken-grotesk/index.css';
+@import '@fontsource-variable/jetbrains-mono/index.css';
 @import './tokens.css';
 
+/* ── Reset ─────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; }
 
-html { color-scheme: var(--color-scheme); scroll-behavior: smooth; }
+html {
+  color-scheme: var(--color-scheme);
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
 
 body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
-  line-height: 1.6;
+  font-size: var(--step-0);
+  line-height: 1.65;
+  font-weight: 420;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
-main { max-width: var(--maxw); margin-inline: auto; padding: var(--space-3) var(--space-2); }
+::selection { background: var(--selection-bg); color: var(--selection-fg); }
 
-a { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; }
+img, svg { display: block; max-width: 100%; }
 
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* ── Tipografía ────────────────────────────────────────── */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 460;
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+  font-variation-settings: 'opsz' 144, 'SOFT' 0, 'WONK' 0;
+  text-wrap: balance;
+}
 
-h1, h2, h3 { line-height: 1.2; font-weight: 700; }
+/* Eyebrow / kicker mono */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.eyebrow .num { color: var(--accent); }
+
+.mono { font-family: var(--font-mono); }
+.dim { color: var(--text-dim); }
+
+/* ── Links ─────────────────────────────────────────────── */
+a { color: inherit; text-decoration: none; }
+
+.link {
+  color: var(--text);
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 0% 1.5px;
+  background-repeat: no-repeat;
+  background-position: 0 1.05em;
+  transition: background-size 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), color 0.2s ease;
+}
+.link:hover, .link:focus-visible { background-size: 100% 1.5px; color: var(--accent); }
+
+/* ── Layout ────────────────────────────────────────────── */
+main {
+  display: block;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--pad-x);
+}
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
 
 .skip-link {
   position: absolute;
   left: -9999px;
   top: 0;
-  background: var(--surface);
+  z-index: 200;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  background: var(--bg-elev);
   color: var(--text);
   padding: var(--space-1) var(--space-2);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   border-radius: var(--radius);
 }
-.skip-link:focus { left: var(--space-2); top: var(--space-2); z-index: 10; }
+.skip-link:focus { left: var(--space-2); top: var(--space-2); }
+
+/* ── Prose (cuerpo markdown) ───────────────────────────── */
+.prose { color: var(--text-dim); max-width: 60ch; }
+.prose p { margin-block: 0.75em; }
+.prose p:first-child { margin-top: 0; }
+.prose a { color: var(--accent); }
+.prose a:hover { color: var(--accent-hi); }
+.prose strong { color: var(--text); font-weight: 600; }
+.prose ul { padding-left: 1.2em; margin-block: 0.75em; }
+.prose li { margin-block: 0.3em; }
+
+/* ── Grano / atmósfera ─────────────────────────────────── */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: var(--grain-blend);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Motion: reveal escalonado al cargar ───────────────── */
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+.reveal {
+  opacity: 0;
+  animation: reveal 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  animation-delay: var(--d, 0s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal { opacity: 1 !important; transform: none !important; }
+}

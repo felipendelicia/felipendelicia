@@ -1,30 +1,66 @@
-:root {
-  /* Tema dark (default) */
-  --bg: #0d0d0f;
-  --surface: #16161a;
-  --text: #ededf0;
-  --muted: #a0a0a8;
-  --accent: #6ea8fe;
-  --border: #26262c;
-  --color-scheme: dark;
+/* ──────────────────────────────────────────────────────────
+   Editorial cálido — design tokens
+   Dark por defecto (:root) · Light vía :root[data-theme='light']
+   ────────────────────────────────────────────────────────── */
 
-  /* Escala / tipografía */
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  --maxw: 48rem;
+:root {
+  /* Color — dark (warm near-black + amber) */
+  --bg: #100e0b;
+  --bg-elev: #18140d;
+  --text: #ece6da;
+  --text-dim: #9b9282;
+  --text-faint: #6b6356;
+  --accent: #e3a23c;
+  --accent-hi: #f2b658;
+  --accent-soft: rgba(227, 162, 60, 0.14);
+  --border: rgba(236, 230, 218, 0.1);
+  --border-strong: rgba(236, 230, 218, 0.2);
+  --selection-bg: rgba(227, 162, 60, 0.85);
+  --selection-fg: #100e0b;
+  --color-scheme: dark;
+  --grain-blend: overlay;
+  --grain-opacity: 0.045;
+
+  /* Tipografía */
+  --font-display: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Hanken Grotesk Variable', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Escala fluida */
+  --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.92rem);
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.12rem);
+  --step-1: clamp(1.2rem, 1.1rem + 0.5vw, 1.5rem);
+  --step-2: clamp(1.6rem, 1.35rem + 1.2vw, 2.4rem);
+  --step-3: clamp(2.4rem, 1.9rem + 2.6vw, 4rem);
+  --step-4: clamp(3.2rem, 2.3rem + 4.6vw, 6.5rem);
+
+  /* Espaciado / layout */
+  --maxw: 64rem;
   --space-1: 0.5rem;
   --space-2: 1rem;
-  --space-3: 2rem;
-  --space-4: 4rem;
-  --radius: 0.5rem;
+  --space-3: 1.5rem;
+  --space-4: 2.5rem;
+  --space-5: 4rem;
+  --space-6: 6.5rem;
+  --radius: 4px;
+  --pad-x: clamp(1.25rem, 5vw, 4rem);
 }
 
 :root[data-theme='light'] {
-  --bg: #fafafa;
-  --surface: #ffffff;
-  --text: #18181b;
-  --muted: #52525b;
-  --accent: #2563eb;
-  --border: #e4e4e7;
+  /* Color — light (warm paper + deep amber) */
+  --bg: #f4efe4;
+  --bg-elev: #fbf7ee;
+  --text: #1c1813;
+  --text-dim: #6b6253;
+  --text-faint: #978d79;
+  --accent: #9a6a14;
+  --accent-hi: #835811;
+  --accent-soft: rgba(154, 106, 20, 0.12);
+  --border: rgba(28, 24, 19, 0.12);
+  --border-strong: rgba(28, 24, 19, 0.22);
+  --selection-bg: rgba(154, 106, 20, 0.85);
+  --selection-fg: #f4efe4;
   --color-scheme: light;
+  --grain-blend: multiply;
+  --grain-opacity: 0.05;
 }
