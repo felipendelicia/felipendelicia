@@ -1,0 +1,118 @@
+% CV — Felipe Nahuel Delicia
+% Fecha de esta versión: 2026-06-25  (el nombre del archivo lleva la fecha; el más reciente es el vigente)
+% Compilar con pdflatex (Overleaf o texlive-full):  pdflatex cv-felipe-delicia-2026-06-25.tex
+% Fuente de verdad del contenido: colecciones `experiencia` y `proyectos` del sitio + GitHub (felipendelicia, org reboot-argentina).
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-noindentfirst]{babel}
+\usepackage[default]{lato}
+\usepackage[a4paper,margin=1.3cm]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{ink}{HTML}{1A1A1A}
+\definecolor{accent}{HTML}{2B6CB0}
+\definecolor{muted}{HTML}{555555}
+
+\hypersetup{colorlinks=true, urlcolor=accent, linkcolor=accent}
+
+% Marca un dato pendiente de completar (se ve en gris/itálica para no olvidarlo).
+\newcommand{\PH}[1]{\textcolor{muted}{\textit{[#1]}}}
+
+\setlist[itemize]{leftmargin=1.2em, itemsep=1pt, topsep=1pt, parsep=0pt}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+% --- Títulos de sección ---
+\titleformat{\section}{\large\bfseries\color{ink}}{}{0em}{\MakeUppercase}[{\color{accent}\titlerule[1pt]}]
+\titlespacing{\section}{0pt}{0.6em}{0.38em}
+
+% --- Entrada de experiencia: {puesto}{empresa}{fechas}{lugar} ---
+\newcommand{\role}[4]{%
+  \textbf{#1}\hfill{\color{muted}\small #3}\\[1pt]
+  \textit{#2}\hfill{\color{muted}\small #4}\par\vspace{0.25em}
+}
+
+% --- Proyecto: {nombre}{stack}{descripción} ---
+\newcommand{\project}[3]{%
+  \textbf{#1}\enspace{\footnotesize\color{muted}#2}\\[1pt]#3\par\vspace{0.25em}
+}
+
+% --- Fila de skills: {categoría}{items} ---
+\newcommand{\skillrow}[2]{\textbf{#1:} #2\par\vspace{1pt}}
+
+\begin{document}
+
+% ============ ENCABEZADO ============
+{\Huge\bfseries\color{ink} Felipe Nahuel Delicia}\\[3pt]
+{\large\color{accent} Desarrollador de Software \textperiodcentered\ Infraestructura TI}\\[6pt]
+{\small
+\faEnvelope[regular]~\href{mailto:delicia4581@gmail.com}{delicia4581@gmail.com} \quad
+\faGithub~\href{https://github.com/felipendelicia}{github.com/felipendelicia} \quad
+\faLinkedin~\href{https://www.linkedin.com/in/felipe-nahuel-delicia-b2487119a/}{in/felipe-nahuel-delicia}\\[2pt]
+\faGlobe~\href{https://felipendelicia.github.io/felipendelicia/}{felipendelicia.github.io} \quad
+\faMapMarker*~Buenos Aires, Argentina
+}
+
+% ============ PERFIL ============
+\section{Perfil}
+Estudiante de Ingeniería en Informática (UBA) dedicado al desarrollo de software y la infraestructura TI.
+Construyo backends y frontends a medida, y despliego y mantengo los sistemas en servidores Linux propios.
+Me muevo cómodo en todo el ciclo: del código a la virtualización, los contenedores y el deploy.
+
+% ============ EXPERIENCIA ============
+\section{Experiencia}
+
+\role{Desarrollador y Sysadmin}{NUMEN}{Marzo 2026 -- Presente}{Buenos Aires, Argentina}
+\begin{itemize}
+  \item Desarrollo de \textbf{PuppetHub}, un ecosistema de microservicios para automatización de redes sociales, web scraping y gestión de proxies: backends en TypeScript (NestJS, Express) y Python (Flask), con una UI de administración en Next.js.
+  \item Orquestación del ecosistema como meta-repo con submódulos git y contratos entre servicios (SocialHub, ConsoleHub, ScrapperHub, BrowserHub, ProxyHub).
+  \item Administración de sistemas: instalación y operación de los servicios en servidores Linux virtualizados con Proxmox y empaquetados con Docker.
+\end{itemize}
+\vspace{0.35em}
+
+\role{Soporte IT, Infraestructura y Desarrollo}{Reboot (MSP)}{Enero 2022 -- Marzo 2026}{Buenos Aires, Argentina}
+\begin{itemize}
+  \item Desarrollo a medida para empresas cliente: sistema MES de manufactura (monorepo Node.js/React, desplegado en Proxmox), integración de facturación electrónica AFIP (WSAA/WSFE), gestión de talleres y sitio institucional.
+  \item Servidores Linux: virtualización con Proxmox y administración de Debian, Ubuntu y Gentoo (web, bases de datos, correo y DNS), on-premise y en la nube, con Docker.
+  \item Redes y soporte: switches, routers y firewalls; VLANs, VPNs, WiFi y cableado estructurado. Implementaciones de ERP, monitoreo, backups, Active Directory y sistemas de cámaras.
+\end{itemize}
+
+% ============ PROYECTOS ============
+\section{Proyectos destacados}
+
+\project{negra-backup}{TypeScript}{Gestor de backups self-hosted: un servidor central orquesta agentes que corren en cada máquina, ejecutan los backups y suben los archivos a los destinos configurados.}
+
+\project{damn-ups}{TypeScript}{Sistema distribuido de monitoreo y control de energía UPS con apagado automático ante cortes.}
+
+\project{julssh}{Go}{Administrador de conexiones SSH (y RDP/VNC) para la terminal: TUI con sync por Google Drive y self-update.}
+
+\project{naturoutes}{Next.js \textperiodcentered\ Leaflet/OSM}{Planificador de rutas de bici y caminata sobre mapa, con ruteo automático y perfil de elevación. 100\% en el navegador, PWA offline.}
+
+\project{Luca Journey}{Python \textperiodcentered\ Pyodide/WASM}{Curso interactivo para aprender Linux y Python desde cero, con temática Pokémon y Python real corriendo enteramente en el navegador.}
+
+% ============ STACK ============
+\section{Stack técnico}
+\skillrow{Lenguajes}{TypeScript, JavaScript, Python, Go, Java, C++, Haskell, Bash}
+\skillrow{Backend}{Node.js, NestJS, Express, Flask, Prisma, PostgreSQL, REST}
+\skillrow{Frontend}{React, Next.js, Astro, Leaflet, HTML/CSS}
+\skillrow{Infraestructura / DevOps}{Linux (Debian, Ubuntu, Gentoo), Proxmox, Docker, GitHub Actions, Netlify, redes (VLAN/VPN), Active Directory}
+\skillrow{Herramientas}{Git, Playwright, OpenCV, Pyodide/WASM}
+
+% ============ EDUCACIÓN ============
+\section{Educación}
+\textbf{Ingeniería en Informática}\enspace{\small\color{muted}\textperiodcentered\ UBA, Facultad de Ingeniería (FIUBA)}\hfill{\small\color{muted}2026 -- Presente}\\[2pt]
+\textbf{Licenciatura en Ciencias de la Computación}\enspace{\small\color{muted}\textperiodcentered\ UBA, Cs. Exactas y Naturales (FCEyN)}\hfill{\small\color{muted}2023 -- 2026}\\[2pt]
+{\small Materias cursadas: Algoritmos y Estructuras de Datos I--III, Sistemas Digitales, Introducción al Desarrollo de Software.}
+
+% ============ IDIOMAS ============
+\section{Idiomas}
+Español (nativo) \quad\textperiodcentered\quad Inglés (intermedio)
+
+\end{document}

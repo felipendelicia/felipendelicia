@@ -2,6 +2,8 @@
 empresa: "NUMEN"
 rol: "Desarrollador y Sysadmin"
 orden: 2
+inicio: 2026-03-01
+fin: null
 tags: ["TypeScript", "NestJS", "Next.js", "Python", "Flask", "Docker", "Proxmox", "Microservicios"]
 subproyectos:
   - nombre: "PuppetHub (orquestador)"

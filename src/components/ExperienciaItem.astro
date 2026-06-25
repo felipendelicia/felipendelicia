@@ -7,7 +7,7 @@ const { entry, locale } = Astro.props;
 const t = useTranslations(locale);
 const { Content } = await render(entry);
 
-const fmt = new Intl.DateTimeFormat(locale, { year: 'numeric', month: 'short' });
+const fmt = new Intl.DateTimeFormat(locale, { year: 'numeric', month: 'short', timeZone: 'UTC' });
 const hasPeriodo = entry.data.inicio != null;
 const inicio = entry.data.inicio ? fmt.format(entry.data.inicio) : null;
 const fin = entry.data.fin ? fmt.format(entry.data.fin) : t('experiencia.actualidad');

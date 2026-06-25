@@ -2,6 +2,8 @@
 empresa: "Reboot"
 rol: "Soporte IT, Infraestructura y Desarrollo"
 orden: 1
+inicio: 2022-01-01
+fin: 2026-03-01
 tags: ["Linux", "Proxmox", "Networking", "VPN", "Active Directory", "Docker", "TypeScript"]
 subproyectos:
   - nombre: "Sistema MES de manufactura"

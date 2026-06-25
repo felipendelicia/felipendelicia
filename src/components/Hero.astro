@@ -5,6 +5,8 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 const email = 'delicia4581@gmail.com';
 const github = 'https://github.com/felipendelicia';
+const linkedin = 'https://www.linkedin.com/in/felipe-nahuel-delicia-b2487119a/';
+const cvUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/cv-felipe-delicia${locale === 'en' ? '-en' : ''}.pdf`;
 ---
 <section class="hero">
   <div class="glow" aria-hidden="true"></div>
@@ -15,6 +17,10 @@ const github = 'https://github.com/felipendelicia';
     <a class="link" href={`mailto:${email}`}>{email}</a>
     <span class="sep" aria-hidden="true">·</span>
     <a class="link" href={github} target="_blank" rel="noopener noreferrer">GitHub&nbsp;↗</a>
+    <span class="sep" aria-hidden="true">·</span>
+    <a class="link" href={linkedin} target="_blank" rel="noopener noreferrer">LinkedIn&nbsp;↗</a>
+    <span class="sep" aria-hidden="true">·</span>
+    <a class="link cv" href={cvUrl} download>{t('cv.descargar')}&nbsp;↓</a>
   </p>
 </section>
 

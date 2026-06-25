@@ -1,0 +1,118 @@
+% CV — Felipe Nahuel Delicia (English)
+% Version date: 2026-06-25  (the filename carries the date; the most recent is the current one)
+% Build with pdflatex (Overleaf or texlive-full):  pdflatex cv-felipe-delicia-2026-06-25-en.tex
+% Source of truth: site `experiencia`/`proyectos` collections + GitHub (felipendelicia, org reboot-argentina).
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[default]{lato}
+\usepackage[a4paper,margin=1.3cm]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{ink}{HTML}{1A1A1A}
+\definecolor{accent}{HTML}{2B6CB0}
+\definecolor{muted}{HTML}{555555}
+
+\hypersetup{colorlinks=true, urlcolor=accent, linkcolor=accent}
+
+% Marks a value still to be completed (shown in muted italics so it isn't forgotten).
+\newcommand{\PH}[1]{\textcolor{muted}{\textit{[#1]}}}
+
+\setlist[itemize]{leftmargin=1.2em, itemsep=1pt, topsep=1pt, parsep=0pt}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+% --- Section titles ---
+\titleformat{\section}{\large\bfseries\color{ink}}{}{0em}{\MakeUppercase}[{\color{accent}\titlerule[1pt]}]
+\titlespacing{\section}{0pt}{0.6em}{0.38em}
+
+% --- Experience entry: {role}{company}{dates}{location} ---
+\newcommand{\role}[4]{%
+  \textbf{#1}\hfill{\color{muted}\small #3}\\[1pt]
+  \textit{#2}\hfill{\color{muted}\small #4}\par\vspace{0.25em}
+}
+
+% --- Project: {name}{stack}{description} ---
+\newcommand{\project}[3]{%
+  \textbf{#1}\enspace{\footnotesize\color{muted}#2}\\[1pt]#3\par\vspace{0.25em}
+}
+
+% --- Skills row: {category}{items} ---
+\newcommand{\skillrow}[2]{\textbf{#1:} #2\par\vspace{1pt}}
+
+\begin{document}
+
+% ============ HEADER ============
+{\Huge\bfseries\color{ink} Felipe Nahuel Delicia}\\[3pt]
+{\large\color{accent} Software Developer \textperiodcentered\ IT Infrastructure}\\[6pt]
+{\small
+\faEnvelope[regular]~\href{mailto:delicia4581@gmail.com}{delicia4581@gmail.com} \quad
+\faGithub~\href{https://github.com/felipendelicia}{github.com/felipendelicia} \quad
+\faLinkedin~\href{https://www.linkedin.com/in/felipe-nahuel-delicia-b2487119a/}{in/felipe-nahuel-delicia}\\[2pt]
+\faGlobe~\href{https://felipendelicia.github.io/felipendelicia/}{felipendelicia.github.io} \quad
+\faMapMarker*~Buenos Aires, Argentina
+}
+
+% ============ PROFILE ============
+\section{Profile}
+Computer Engineering student (UBA) focused on software development and IT infrastructure.
+I build custom backends and frontends, and deploy and maintain the systems on my own Linux servers.
+I'm comfortable across the whole cycle: from code to virtualization, containers and deployment.
+
+% ============ EXPERIENCE ============
+\section{Experience}
+
+\role{Developer \& Sysadmin}{NUMEN}{March 2026 -- Present}{Buenos Aires, Argentina}
+\begin{itemize}
+  \item Development of \textbf{PuppetHub}, a microservices ecosystem for social-media automation, web scraping and proxy management: backends in TypeScript (NestJS, Express) and Python (Flask), with a Next.js admin UI.
+  \item Orchestration of the ecosystem as a meta-repo with git submodules and inter-service contracts (SocialHub, ConsoleHub, ScrapperHub, BrowserHub, ProxyHub).
+  \item Systems administration: installing and operating the services on Linux servers virtualized with Proxmox and packaged with Docker.
+\end{itemize}
+\vspace{0.35em}
+
+\role{IT Support, Infrastructure \& Development}{Reboot (MSP)}{January 2022 -- March 2026}{Buenos Aires, Argentina}
+\begin{itemize}
+  \item Custom development for client companies: a manufacturing MES system (Node.js/React monorepo, deployed on Proxmox), AFIP e-invoicing integration (WSAA/WSFE), workshop management and a corporate website.
+  \item Linux servers: virtualization with Proxmox and administration of Debian, Ubuntu and Gentoo (web, databases, mail and DNS), on-premise and in the cloud, with Docker.
+  \item Networking and support: switches, routers and firewalls; VLANs, VPNs, WiFi and structured cabling. Deployments of ERP, monitoring, backups, Active Directory and camera systems.
+\end{itemize}
+
+% ============ PROJECTS ============
+\section{Selected projects}
+
+\project{negra-backup}{TypeScript}{Self-hosted backup manager: a central server orchestrates agents running on each machine that run the backups and upload the files to the configured destinations.}
+
+\project{damn-ups}{TypeScript}{Distributed system for monitoring and controlling UPS power, with automatic shutdown on outages.}
+
+\project{julssh}{Go}{SSH (and RDP/VNC) connection manager for the terminal: a TUI with Google Drive sync and self-update.}
+
+\project{naturoutes}{Next.js \textperiodcentered\ Leaflet/OSM}{Bike and walking route planner on a map, with automatic routing and elevation profile. 100\% in the browser, offline PWA.}
+
+\project{Luca Journey}{Python \textperiodcentered\ Pyodide/WASM}{Interactive course to learn Linux and Python from scratch, with a Pokémon theme and real Python running entirely in the browser.}
+
+% ============ STACK ============
+\section{Tech stack}
+\skillrow{Languages}{TypeScript, JavaScript, Python, Go, Java, C++, Haskell, Bash}
+\skillrow{Backend}{Node.js, NestJS, Express, Flask, Prisma, PostgreSQL, REST}
+\skillrow{Frontend}{React, Next.js, Astro, Leaflet, HTML/CSS}
+\skillrow{Infrastructure / DevOps}{Linux (Debian, Ubuntu, Gentoo), Proxmox, Docker, GitHub Actions, Netlify, networking (VLAN/VPN), Active Directory}
+\skillrow{Tools}{Git, Playwright, OpenCV, Pyodide/WASM}
+
+% ============ EDUCATION ============
+\section{Education}
+\textbf{Computer Engineering}\enspace{\small\color{muted}\textperiodcentered\ UBA, School of Engineering (FIUBA)}\hfill{\small\color{muted}2026 -- Present}\\[2pt]
+\textbf{BSc in Computer Science}\enspace{\small\color{muted}\textperiodcentered\ UBA, School of Exact and Natural Sciences (FCEyN)}\hfill{\small\color{muted}2023 -- 2026}\\[2pt]
+{\small Coursework: Algorithms and Data Structures I--III, Digital Systems, Introduction to Software Development.}
+
+% ============ LANGUAGES ============
+\section{Languages}
+Spanish (native) \quad\textperiodcentered\quad English (intermediate)
+
+\end{document}
